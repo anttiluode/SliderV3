@@ -1,0 +1,6 @@
+A AB/BA   ||ΔW||=0.000000  RMS Δread=0.000000  relative=0.000%
+A ABX/BAX   ||ΔW||=0.000000  RMS Δread=0.000000  relative=0.000%
+B AB/BA   ||ΔW||=0.000000  RMS Δread=0.000000  relative=0.000%
+B ABX/BAX   ||ΔW||=0.000000  RMS Δread=0.000000  relative=0.000%
+C AB/BA   ||ΔW||=0.019438  RMS Δread=0.002410  relative=2.890%
+C ABX/BAX   ||ΔW||=0.019905  RMS Δread=0.002147  relative=2.612%
