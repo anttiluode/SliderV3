@@ -129,7 +129,7 @@ Connected weights are updated symmetrically using the measured exposure:
 
 $$
 W_{ij}^{\mathrm{new}}
-=\operatorname{clip}\left(
+=\mathrm{clip}\left(
 W_{ij}^{\mathrm{old}}+
 \eta s\,E_{ij},\ 0.01,\ 0.70
 \right).
