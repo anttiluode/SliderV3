@@ -14,10 +14,10 @@ The central result is modest but real: presenting the same two stimuli in opposi
 
 Requires Python 3.10+ with Tkinter (normally included on Windows) and NumPy/Matplotlib.
 
-~~~powershell
+```powershell
 python3.13 -m pip install numpy matplotlib
 python3.13 SliderWaveMemoryV3.py
-~~~
+```
 
 In the app:
 
@@ -31,10 +31,10 @@ The script is named **SliderWaveMemoryV3.py** in this repository (including capi
 
 For automated, headless checks:
 
-~~~powershell
+```powershell
 python3.13 SliderWaveMemoryV3.py --selftest
 python3.13 SliderWaveMemoryV3.py --demo
-~~~
+```
 
 No audio device, cloud service, GPU, or internet access is needed.
 
@@ -42,7 +42,7 @@ No audio device, cloud service, GPU, or internet access is needed.
 
 The repository's deterministic demo produces the following readings using the default Fourier write rule and default parameters:
 
-| Mode | Histories | Matrix difference, \(\lVert \Delta W\rVert_F\) | Probe RMS difference | Relative probe difference |
+| Mode | Histories | Matrix difference, $\lVert \Delta W\rVert_F$ | Probe RMS difference | Relative probe difference |
 |:---|:---|---:|---:|---:|
 | A — phase oscillator | AB / BA | 0.000000 | 0.000000 | 0.000% |
 | A — phase oscillator | ABX / BAX | 0.000000 | 0.000000 | 0.000% |
@@ -59,7 +59,7 @@ d_{\mathrm{rel}} =
 {\sqrt{\bigl(\mathrm{RMS}(y_1)^2+\mathrm{RMS}(y_2)^2\bigr)/2}}.
 $$
 
-The reported percentage is \(100d_{\mathrm{rel}}\). It is **not** an accuracy score or a measured probability of recalling a sequence.
+The reported percentage is $100d_{\mathrm{rel}}$. It is **not** an accuracy score or a measured probability of recalling a sequence.
 
 In each paired trial, both histories begin with the **same initial graph**. Before their final probe, all fast oscillator variables, phases, sample clocks, and short-term output histories are reset. Only the altered edge weights remain. The probe itself does **not** update the edges.
 
@@ -80,7 +80,7 @@ Three stimulus labels choose only a drive frequency and injection node:
 | X | 310 Hz | 5 |
 | Common read probe | 196 Hz | 6 |
 
-The graph has eight nodes, with nearest-neighbor ring links and next-nearest-neighbor links (16 undirected edges). Its dynamics are synthetic discrete-time coupled oscillators. For displacement vector \(x_t\), the actual implemented step is:
+The graph has eight nodes, with nearest-neighbor ring links and next-nearest-neighbor links (16 undirected edges). Its dynamics are synthetic discrete-time coupled oscillators. For displacement vector $x_t$, the actual implemented step is:
 
 $$
 x_{t+1} =
@@ -90,11 +90,11 @@ x_{t+1} =
 +u_t.
 $$
 
-Here \(W\) is the symmetric connection matrix, \(D(W)\) contains its row sums on the diagonal, and \(u_t\) is the externally driven pulse at one node. The graph is integrated through time; it is not fed a precomputed weight-change stencil.
+Here $W$ is the symmetric connection matrix, $D(W)$ contains its row sums on the diagonal, and $u_t$ is the externally driven pulse at one node. The graph is integrated through time; it is not fed a precomputed weight-change stencil.
 
 ### 2. Measure what the wave actually did
 
-For each pulse of length \(T\), the default **fourier** rule measures a complex, Hann-windowed coefficient at the *drive frequency* \(f\) for every node:
+For each pulse of length $T$, the default **fourier** rule measures a complex, Hann-windowed coefficient at the *drive frequency* $f$ for every node:
 
 $$
 F_i(f) =
@@ -104,9 +104,9 @@ h_t\,x_i(t)\,
 e^{-2\pi \mathrm{i}ft/f_s},
 $$
 
-where \(h_t\) is the Hann window and the simulation sample rate is \(f_s=2400\) steps per second.
+where $h_t$ is the Hann window and the simulation sample rate is $f_s=2400$ steps per second.
 
-Unlike a comparison of magnitudes alone, the complex difference \(F_i-F_j\) depends on **relative phase as well as amplitude**. For each existing edge \((i,j)\), its measured exposure is:
+Unlike a comparison of magnitudes alone, the complex difference $F_i-F_j$ depends on **relative phase as well as amplitude**. For each existing edge $(i,j)$, its measured exposure is:
 
 $$
 E_{ij}
@@ -135,9 +135,9 @@ W_{ij}^{\mathrm{old}}+
 \right).
 $$
 
-Here \(\eta=0.055\) is the default write rate and \(s=1\) the default strength. Unconnected edges are not added. The fast wave state is reset between stimulus events, so the next event's response depends on the retained network \(W\), not on a leftover oscillation from the previous event.
+Here $\eta=0.055$ is the default write rate and $s=1$ the default strength. Unconnected edges are not added. The fast wave state is reset between stimulus events, so the next event's response depends on the retained network $W$, not on a leftover oscillation from the previous event.
 
-Let \(T_A(W)\) mean *propagate A through the current graph, measure the response, then update that graph*. Then, for this implementation:
+Let $T_A(W)$ mean *propagate A through the current graph, measure the response, then update that graph*. Then, for this implementation:
 
 $$
 T_B\bigl(T_A(W_0)\bigr)
@@ -145,7 +145,7 @@ T_B\bigl(T_A(W_0)\bigr)
 T_A\bigl(T_B(W_0)\bigr).
 $$
 
-This is the precise sense in which the **write operations are order-dependent (noncommuting)**. It is **not** a claim that the matrices \(W_A\) and \(W_B\) themselves have a nonzero matrix commutator.
+This is the precise sense in which the **write operations are order-dependent (noncommuting)**. It is **not** a claim that the matrices $W_A$ and $W_B$ themselves have a nonzero matrix commutator.
 
 ### 4. Ask the same question of two different histories
 
@@ -157,7 +157,7 @@ $$
 
 Because the graph is different, the probe's wave propagation — and therefore the readout — can be different. The experiment observes **a distinction between histories**, not a reconstructed transcript of the original events.
 
-~~~mermaid
+```mermaid
 flowchart TD
     S["Identical starting network W0"]
     S --> A["Write A, then B"]
@@ -170,7 +170,7 @@ flowchart TD
     RB --> YB["Read signal y_BA"]
     YA --> D["Compare responses"]
     YB --> D
-~~~
+```
 
 ## Controls: why this is not V2's lookup-table shortcut
 
@@ -182,8 +182,8 @@ The headless self-tests check these distinct explanations:
 |:---|:---|:---|
 | Mode A or B | No persistent AB/BA read difference after reset | Phase continuity or bounded feedback alone is not the stored structural memory in this paired test |
 | Learning disabled | No persistent order difference | Writing is necessary |
-| Erase the matrix after writing | No order difference | The final read depends on retained \(W\) |
-| Force both writing wavefields through unchanged \(W_0\) | No order difference | Exposure must be affected by previous writes; two fixed, additive exposures commute |
+| Erase the matrix after writing | No order difference | The final read depends on retained $W$ |
+| Force both writing wavefields through unchanged $W_0$ | No order difference | Exposure must be affected by previous writes; two fixed, additive exposures commute |
 | Reset fast state before read | Read difference remains in C | It is not an unreset oscillator phase |
 | Repeat the same read | Identical result, unchanged matrix | Reads do not secretly write |
 | Fourier and strain self-tests | Pass | Both implemented wave-derived write laws are numerically exercised |
@@ -228,7 +228,7 @@ This would measure **usable memory**, rather than merely finding two different m
 
 ## Scope and limits
 
-This is **not** an AI that discovered its own plasticity law, a quantum computer, a proof of a special property of \(\pi\), or a demonstrated improvement over ordinary neural/recurrent architectures. Frequencies, topology, drive ports, coupling dynamics, and write law were deliberately chosen. Readout is a synthetic fixed mixture, not real microphone data. No storage capacity, uncertainty bounds, long-term robustness, task learning, or scaling advantage has been established.
+This is **not** an AI that discovered its own plasticity law, a quantum computer, a proof of a special property of $\pi$, or a demonstrated improvement over ordinary neural/recurrent architectures. Frequencies, topology, drive ports, coupling dynamics, and write law were deliberately chosen. Readout is a synthetic fixed mixture, not real microphone data. No storage capacity, uncertainty bounds, long-term robustness, task learning, or scaling advantage has been established.
 
 **What is supported:** in this eight-node system, measured wave motion can modify the network so that opposite input orders leave different structural states and different later non-writing responses; the existing controls isolate this effect from fast phase carry-over and hardcoded label-to-matrix assignments.
 
