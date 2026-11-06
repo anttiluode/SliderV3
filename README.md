@@ -249,9 +249,40 @@ The benchmark requires NumPy, plus optional Matplotlib for a plot. If Numba is i
 
 Read the [five-seed report](MULTISEED_RESULTS.md), [single-seed detailed report](BLIND_READOUT_RESULTS.md), [full data](blind_readout_multiseed.json) and [source code](blind_readout_benchmark.py).
 
-### Next test
+## Resource-matched memory comparison — measured
 
-A better next gate is to measure **capacity and repeated use**, rather than merely classification of one AB/BA distinction. Vary the number of independent stored bits, increase material perturbations, include more probe ports and repeated reads, and compare with a **budget-matched** ESN under the same input/readout constraints. Seek stable generalization and meaningful retrieval under substantially greater noise. It is entirely possible this current plasticity rule will not pass.
+The earlier **96-unit ESN** was not budget-matched: it directly exposed its state, while the wave medium retained just **16 writable edge weights** and was interrogated by a wave probe. We have now compared models with **16 persistent mutable scalars**, the same AB/BA + held-out suffix datasets, the same 128-sample scalar non-writing readout *count*, and the same linear ridge decoder. Controls include an **8-state ESN**, **16-state sparse recurrent ring**, **16-state exponential trace bank**, commutative bag-of-inputs null, and **32-state ESN**.
+
+Five seeds, 48 training and 24 held-out matched pairs per seed:
+
+| Additional common writes | Wave (16 edges) | Sparse ring (16) | Dense ESN (16) | Multiscale trace (16) |
+|---:|---:|---:|---:|---:|
+| 0 | 90.0% | 100.0% | 100.0% | 100.0% |
+| 2 | 70.4% | 60.0% | **100.0%** | 56.7% |
+| 4 | 71.7% | 61.3% | **90.8%** | 57.9% |
+| 8 | 61.7% | 52.9% | 59.6% | 52.9% |
+| 16 | 52.9% | 50.8% | 50.4% | 50.4% |
+
+![Resource-matched sequence decoding across five seeds](resource_matched.svg)
+
+**Interpretation:** on this particular binary order-recall task, the ordinary **16-state dense ESN is substantially more accurate** at short-to-medium retention lengths. The wave approach beats the simple sparse-ring and multiscale-trace baselines at some lengths, and has a small advantage over the dense ESN at eight additional writes; the latter is not established as statistically reliable. By sixteen writes, every model is near chance.
+
+**What was and wasn't matched:** the number of persistent *mutable scalar slots*, held-out sequences, decoder, and **128 scalar observations**. The sensor hardware is not identical: ESN states drive a fixed idealized frequency-multiplexed one-dimensional transducer, while the wave system is interrogated with a 196 Hz probe through its current graph. The dense ESN also uses more *fixed* recurrent coefficients. Computing costs are **not equal**: with two suffix events, the wave simulation performs **1,536 steps per write plus 1,024 read steps** (approximately **458,752 dense-matvec multiply-add lower-bound operations**), while the ESN16 needs one state update per event plus the analytic 128-sample read (~**3,072** corresponding operations). These arithmetic counts are model-work proxies, not energy or hardware measurements. Matching a cost *ceiling* does not mean both systems need to spend all of it.
+
+**Conclusion:** we have not demonstrated a performance, computational, or energy advantage for V3 over ordinary recurrent memory. What remains distinctive is the *mechanism* — structural wave-derived writes with separate non-writing wave interrogation — rather than benchmark superiority.
+
+Run the benchmark locally:
+
+```powershell
+python3.13 resource_matched_benchmark.py --selftest
+python3.13 resource_matched_benchmark.py
+```
+
+The optional Numba implementation is validated against the original wave simulator before acceleration; no GPU or server is required. Full details: [resource-matched report](RESOURCE_MATCHED_RESULTS.md), [complete five-seed JSON](resource_matched_results.json), and [reproducible source](resource_matched_benchmark.py).
+
+### Next questions
+
+The next genuinely discriminating tests are **multi-bit storage capacity**, robustness to much larger disturbances, and an equal-*transducer* experiment. Simple AB/BA classification is not a capacity measurement. It remains possible that this particular wave-plasticity rule offers no practical advantage.
 
 ## Scope and limits
 
