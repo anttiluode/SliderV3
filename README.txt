@@ -1,6 +1,8 @@
 SLIDER / WAVE MEMORY LAB V3
 ============================
 
+![pic](pic.png)
+
 WHAT THIS CHANGES
 -----------------
 This version does NOT write a hardcoded INPUT_PATTERNS[A/B] matrix imprint.
