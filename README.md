@@ -214,21 +214,48 @@ The shared research question is:
 
 > **Can a physical-style medium retain distinctions between histories in its internal relationships, and later reveal the right distinctions through controlled, non-destructive probing?**
 
-## Next experiment: distinguish sequences without inspecting W
+## Blind readout benchmark — now tested
 
-A useful follow-up is a **blind readout benchmark**, not another prettier visualization:
+We ran the proposed experiment. The classifier receives **only 128 fixed samples of a later, non-writing waveform**. It does not inspect the edge matrix, and all fast oscillator state is reset before the probe. Training labels say whether the write history began with **AB** or **BA**; each matched pair receives the *same* initial graph and *same* common suffix. For suffix lengths above zero, the test suffix strings are **absent from training**. Starting edge weights also receive independent perturbations in each pair (Gaussian standard deviation 0.002).
 
-1. Write many different sequences into fresh networks, including held-out sequences and histories with a common suffix.
-2. Give a classifier or predictor only the later **non-writing probe signals** — never the internal edge matrix.
-3. Vary the read frequency, port, and measurement noise; measure accuracy, confusion, and margin to noise.
-4. Include learning-disabled, erased, fixed-propagation, shuffled-label, and conventional recurrent/reservoir baselines.
-5. Evaluate forgetting under additional writes and whether any useful distinctions survive at increasing sequence length.
+Five independent seeded runs (20261106–20261110) used **48 training pairs and 24 test pairs per seed**:
 
-This would measure **usable memory**, rather than merely finding two different matrices and two different deterministic readouts.
+| Extra common writes | Wave single read | Wave matched-pair choice | Conventional ESN single |
+|---:|---:|---:|---:|
+| 0 | **91.7%** | 100.0% | 100.0% |
+| 2 | **71.7%** | 86.7% | 100.0% |
+| 4 | **69.6%** | 88.3% | 100.0% |
+| 8 | **66.7%** | 85.8% | 82.1% |
+
+![Five-seed mean decoding accuracy](blind_readout_multiseed.svg)
+
+**Single read** means classifying *one waveform*, with no matched comparison supplied at test time. **Matched-pair choice** is the easier task of receiving both responses and identifying which came from AB. They should not be confused.
+
+At a suffix length of 2, the wave single-read accuracy across seeds fell from **71.7%** clean to **62.5%** under 1% Gaussian measurement noise (relative to clean probe RMS), **61.3%** under 3% noise, and **53.3%** at 10% noise. The 196 Hz/node 6, 160 Hz/node 1 and 310 Hz/node 4 read probes produced different outcomes, demonstrating that **probe choice matters** for readability.
+
+Crucially, the **learning-disabled, erased, and fixed-propagation controls** returned to **50% single-read and matched-pair chance**. The fixed-propagation signals are identical to numerical precision; insignificant floating-point rounding is treated as a tie. Labels shuffled for training produce a further negative control.
+
+The conventional baseline is a **96-unit tanh echo-state network (ESN)** with fixed recurrent connections and a trained linear readout. **It outperformed the wave system** in the tested conditions. Its access to persistent recurrent state is different from the wave system's reset-and-probe protocol, so this is context, not a cost-matched physical comparison. The current evidence is for **partial, decodable synthetic order memory**, not a memory architecture advantage.
+
+Run locally:
+
+```powershell
+python3.13 blind_readout_benchmark.py --selftest
+python3.13 blind_readout_benchmark.py
+foreach ($s in 20261106..20261110) { python3.13 blind_readout_benchmark.py --seed $s --out ("seed_" + $s) }
+```
+
+The benchmark requires NumPy, plus optional Matplotlib for a plot. If Numba is installed it accelerates the timestepper and **first checks its agreement** with the original simulator. Otherwise it runs the reference implementation.
+
+Read the [five-seed report](MULTISEED_RESULTS.md), [single-seed detailed report](BLIND_READOUT_RESULTS.md), [full data](blind_readout_multiseed.json) and [source code](blind_readout_benchmark.py).
+
+### Next test
+
+A better next gate is to measure **capacity and repeated use**, rather than merely classification of one AB/BA distinction. Vary the number of independent stored bits, increase material perturbations, include more probe ports and repeated reads, and compare with a **budget-matched** ESN under the same input/readout constraints. Seek stable generalization and meaningful retrieval under substantially greater noise. It is entirely possible this current plasticity rule will not pass.
 
 ## Scope and limits
 
-This is **not** an AI that discovered its own plasticity law, a quantum computer, a proof of a special property of $\pi$, or a demonstrated improvement over ordinary neural/recurrent architectures. Frequencies, topology, drive ports, coupling dynamics, and write law were deliberately chosen. Readout is a synthetic fixed mixture, not real microphone data. No storage capacity, uncertainty bounds, long-term robustness, task learning, or scaling advantage has been established.
+This is **not** an AI that discovered its own plasticity law, a quantum computer, a proof of a special property of $\pi$, or a demonstrated improvement over ordinary neural/recurrent architectures. Frequencies, topology, drive ports, coupling dynamics, and write law were deliberately chosen. Readout is a synthetic fixed mixture, not real microphone data. There is no established large-scale storage capacity, long-term robustness, end-to-end task-trained plasticity, or advantage over recurrent architectures.
 
 **What is supported:** in this eight-node system, measured wave motion can modify the network so that opposite input orders leave different structural states and different later non-writing responses; the existing controls isolate this effect from fast phase carry-over and hardcoded label-to-matrix assignments.
 
@@ -236,6 +263,10 @@ This is **not** an AI that discovered its own plasticity law, a quantum computer
 
 - [SliderWaveMemoryV3.py](SliderWaveMemoryV3.py) — GUI, wave simulator, comparisons, and self-tests.
 - [slider_wave_memory_lab_v3_results.txt](slider_wave_memory_lab_v3_results.txt) — saved numerical demo output.
+- [blind_readout_benchmark.py](blind_readout_benchmark.py) — blind classification benchmark and reproducible controls.
+- [MULTISEED_RESULTS.md](MULTISEED_RESULTS.md) — five-seed results and protocol.
+- [BLIND_READOUT_RESULTS.md](BLIND_READOUT_RESULTS.md) and [blind_readout_multiseed.json](blind_readout_multiseed.json) — detailed measurements and machine-readable scores.
+- [blind_readout_multiseed.svg](blind_readout_multiseed.svg) — measured accuracy plot.
 - [pic.png](pic.png) — interface screenshot.
 
 All math above uses **GitHub-supported Markdown math** and the process diagram uses **GitHub-supported Mermaid**. View this file on GitHub to see them rendered.

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="850" height="480" viewBox="0 0 850 480" role="img" aria-label="Five-seed mean accuracy by suffix length">
+<rect width="850" height="480" fill="#0e1726"/>
+<text x="52" y="39" fill="#e5edf7" font-family="Arial" font-weight="bold" font-size="22">Blind Readout: 5-seed mean accuracy</text>
+<text x="52" y="65" fill="#acbccd" font-family="Arial" font-size="13">Wave single-trial, paired comparison, and ordinary recurrent ESN</text>
+<line x1="90" x2="800" y1="400.0" y2="400.0" stroke="#27364a" stroke-width="1"/>
+<text x="75" y="405.0" text-anchor="end" fill="#c3cfda" font-family="Arial" font-size="12">0%</text>
+<line x1="90" x2="800" y1="338.8" y2="338.8" stroke="#27364a" stroke-width="1"/>
+<text x="75" y="343.8" text-anchor="end" fill="#c3cfda" font-family="Arial" font-size="12">20%</text>
+<line x1="90" x2="800" y1="277.6" y2="277.6" stroke="#27364a" stroke-width="1"/>
+<text x="75" y="282.6" text-anchor="end" fill="#c3cfda" font-family="Arial" font-size="12">40%</text>
+<line x1="90" x2="800" y1="216.4" y2="216.4" stroke="#27364a" stroke-width="1"/>
+<text x="75" y="221.4" text-anchor="end" fill="#c3cfda" font-family="Arial" font-size="12">60%</text>
+<line x1="90" x2="800" y1="155.2" y2="155.2" stroke="#27364a" stroke-width="1"/>
+<text x="75" y="160.2" text-anchor="end" fill="#c3cfda" font-family="Arial" font-size="12">80%</text>
+<line x1="90" x2="800" y1="94.0" y2="94.0" stroke="#27364a" stroke-width="1"/>
+<text x="75" y="99.0" text-anchor="end" fill="#c3cfda" font-family="Arial" font-size="12">100%</text>
+<text x="90.0" y="424" text-anchor="middle" fill="#c3cfda" font-family="Arial" font-size="13">0</text>
+<text x="267.5" y="424" text-anchor="middle" fill="#c3cfda" font-family="Arial" font-size="13">2</text>
+<text x="445.0" y="424" text-anchor="middle" fill="#c3cfda" font-family="Arial" font-size="13">4</text>
+<text x="800.0" y="424" text-anchor="middle" fill="#c3cfda" font-family="Arial" font-size="13">8</text>
+<text x="445" y="455" text-anchor="middle" fill="#c3cfda" font-family="Arial" font-size="13">Additional common suffix writes after AB or BA</text>
+<polyline points="90.0,119.5 267.5,180.7 445.0,187.1 800.0,196.0" fill="none" stroke="#70d2bb" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="90.0" cy="119.5" r="5" fill="#70d2bb"/>
+<circle cx="267.5" cy="180.7" r="5" fill="#70d2bb"/>
+<circle cx="445.0" cy="187.1" r="5" fill="#70d2bb"/>
+<circle cx="800.0" cy="196.0" r="5" fill="#70d2bb"/>
+<polyline points="90.0,94.0 267.5,134.8 445.0,129.7 800.0,137.4" fill="none" stroke="#f2bd71" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="90.0" cy="94.0" r="5" fill="#f2bd71"/>
+<circle cx="267.5" cy="134.8" r="5" fill="#f2bd71"/>
+<circle cx="445.0" cy="129.7" r="5" fill="#f2bd71"/>
+<circle cx="800.0" cy="137.4" r="5" fill="#f2bd71"/>
+<polyline points="90.0,94.0 267.5,94.0 445.0,94.0 800.0,148.8" fill="none" stroke="#86aaff" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="90.0" cy="94.0" r="5" fill="#86aaff"/>
+<circle cx="267.5" cy="94.0" r="5" fill="#86aaff"/>
+<circle cx="445.0" cy="94.0" r="5" fill="#86aaff"/>
+<circle cx="800.0" cy="148.8" r="5" fill="#86aaff"/>
+<polyline points="90.0,94.0 267.5,94.0 445.0,94.0 800.0,94.0" fill="none" stroke="#da92e5" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="90.0" cy="94.0" r="5" fill="#da92e5"/>
+<circle cx="267.5" cy="94.0" r="5" fill="#da92e5"/>
+<circle cx="445.0" cy="94.0" r="5" fill="#da92e5"/>
+<circle cx="800.0" cy="94.0" r="5" fill="#da92e5"/>
+<line x1="110" y1="457" x2="138" y2="457" stroke="#70d2bb" stroke-width="3"/><text x="145" y="461" fill="#dce6ef" font-family="Arial" font-size="13">Wave single</text>
+<line x1="279" y1="457" x2="307" y2="457" stroke="#f2bd71" stroke-width="3"/><text x="314" y="461" fill="#dce6ef" font-family="Arial" font-size="13">Wave paired</text>
+<line x1="448" y1="457" x2="476" y2="457" stroke="#86aaff" stroke-width="3"/><text x="483" y="461" fill="#dce6ef" font-family="Arial" font-size="13">ESN single</text>
+<line x1="617" y1="457" x2="645" y2="457" stroke="#da92e5" stroke-width="3"/><text x="652" y="461" fill="#dce6ef" font-family="Arial" font-size="13">ESN paired</text>
+</svg>
